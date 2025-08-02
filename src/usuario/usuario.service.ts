@@ -22,19 +22,36 @@ export class UsuarioService {
   //   return bcrypt.compare(candidatePassword, hashedPassword);
   // }
 
-  findAll() {
-    return `This action returns all usuario`;
+  async findAll() {
+    return await this.userSchema.find().exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} usuario`;
+  async findOne(id: number) {
+    return await this.userSchema.findById(id).exec();
   }
 
-  update(id: number, updateUsuarioDto: UpdateUsuarioDto) {
-    return `This action updates a #${id} usuario`;
+  async update(id: string, updateUsuarioDto: UpdateUsuarioDto) {
+    const cleanId = id.startsWith(':') ? id.substring(1) : id;
+
+    const user = await this.userSchema
+      .findByIdAndUpdate(cleanId, updateUsuarioDto, {
+        new: true,
+      })
+      .exec();
+    if (!user) {
+      throw new Error('Usuário não encontrado');
+    }
+
+    return user;
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} usuario`;
+  async remove(id: string) {
+    const cleanId = id.startsWith(':') ? id.substring(1) : id;
+
+    const user = await this.userSchema.findByIdAndDelete(cleanId).exec();
+    if (!user) {
+      throw new Error('Usuário não encontrado');
+    }
+    return { message: 'Usuário removido com sucesso' };
   }
 }

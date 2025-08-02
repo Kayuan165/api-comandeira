@@ -21,23 +21,23 @@ export class UsuarioController {
     return this.usuarioService.create(createUsuarioDto);
   }
 
-  @Get()
+  @Get('find')
   findAll() {
     return this.usuarioService.findAll();
   }
 
-  @Get(':id')
+  @Get('find:id')
   findOne(@Param('id') id: string) {
     return this.usuarioService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('update:id')
   update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
-    return this.usuarioService.update(+id, updateUsuarioDto);
+    return this.usuarioService.update(id, updateUsuarioDto);
   }
 
-  @Delete(':id')
+  @Delete('delete:id')
   remove(@Param('id') id: string) {
-    return this.usuarioService.remove(+id);
+    return this.usuarioService.remove(id);
   }
 }
