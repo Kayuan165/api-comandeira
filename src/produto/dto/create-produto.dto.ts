@@ -7,7 +7,7 @@ export class CreateProdutoDto {
 
   @IsNotEmpty()
   @IsString()
-  preco: string;
+  preco: number;
 
   @IsNotEmpty()
   @IsNumber()

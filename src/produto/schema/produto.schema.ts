@@ -17,7 +17,7 @@ export class Produto {
   descricao: string;
 
   @Prop({ required: true })
-  preco: string;
+  preco: number;
 
   @Prop({ required: true, select: false })
   numero: number;
