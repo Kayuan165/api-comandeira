@@ -1,6 +1,4 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-// import * as bcrypt from 'bcrypt';
 
 @Schema({
   timestamps: true,
@@ -14,15 +12,18 @@ import { Document } from 'mongoose';
     },
   },
 })
-export class User extends Document {
+export class Produto {
   @Prop({ required: true })
-  nome: string;
+  descricao: string;
 
-  @Prop({ required: true, unique: true })
-  email: string;
+  @Prop({ required: true })
+  preco: string;
 
   @Prop({ required: true, select: false })
-  senha: string;
+  numero: number;
+
+  @Prop({ default: true })
+  ativo: boolean;
 }
 
-export const UsuarioSchema = SchemaFactory.createForClass(User);
+export const ProdutoSchema = SchemaFactory.createForClass(Produto);
