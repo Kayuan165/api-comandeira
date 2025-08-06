@@ -27,8 +27,6 @@ export class User extends Document {
 
 export const UsuarioSchema = SchemaFactory.createForClass(User);
 
-UsuarioSchema.index({ email: 1 }, { unique: true });
-
 // UsuarioSchema.pre<User>('save', async function (next) {
 //   if (!this.isModified('senha')) return next();
 
