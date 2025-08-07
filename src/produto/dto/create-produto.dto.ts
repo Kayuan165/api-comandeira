@@ -1,4 +1,10 @@
-import { IsBoolean, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsBoolean,
+  IsNotEmpty,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from 'class-validator';
 
 export class CreateProdutoDto {
   @IsNotEmpty()
@@ -15,4 +21,8 @@ export class CreateProdutoDto {
 
   @IsBoolean()
   ativo: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  adicional?: boolean;
 }

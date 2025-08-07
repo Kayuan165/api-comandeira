@@ -24,6 +24,9 @@ export class Produto {
 
   @Prop({ default: true })
   ativo: boolean;
+
+  @Prop({ default: false })
+  adicional: boolean;
 }
 
 export const ProdutoSchema = SchemaFactory.createForClass(Produto);
