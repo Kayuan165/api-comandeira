@@ -1,11 +1,13 @@
 import {
   IsArray,
   IsBoolean,
+  IsIn,
   IsMongoId,
   IsNotEmpty,
   IsNumber,
   IsOptional,
   IsString,
+  Length,
   Min,
   ValidateNested,
 } from 'class-validator';
@@ -57,6 +59,25 @@ class CreateItemPedidoDto {
   nome: string;
 }
 
+class PagamentoItemDto {
+  @IsString()
+  @IsIn(['dinheiro', 'pix', 'cartão crédito', 'cartão débito', 'vale refeição'])
+  tipo: string;
+
+  @IsNumber()
+  @Min(0)
+  valor: number;
+
+  @IsOptional()
+  @IsNumber()
+  trocoPara?: number;
+
+  @IsOptional()
+  @IsString()
+  @Length(4, 4)
+  ultimosDigitos?: string;
+}
+
 export class CreatePedidoDto {
   @IsMongoId()
   @IsNotEmpty()
@@ -66,6 +87,11 @@ export class CreatePedidoDto {
   @ValidateNested({ each: true })
   @Type(() => CreateItemPedidoDto)
   itens: CreateItemPedidoDto[];
+
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => PagamentoItemDto)
+  pagamentos: PagamentoItemDto[];
 
   @IsNumber()
   @Min(0)

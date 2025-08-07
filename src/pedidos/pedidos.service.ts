@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -20,7 +20,30 @@ export class PedidosService {
       }
 
       if (createPedidoDto.valorTotal <= 0) {
-        throw new Error('Valor total do pedido deve ser maior que zero');
+        throw new BadRequestException(
+          'Valor total do pedido deve ser maior que zero',
+        );
+      }
+
+      if (!createPedidoDto.agendado && createPedidoDto.horarioAgendamento) {
+        throw new BadRequestException(
+          'Horário de agendamento só pode ser definido se o pedido for agendado',
+        );
+      }
+
+      if (!createPedidoDto.pago && createPedidoDto.pagamentos?.length > 0) {
+        throw new BadRequestException(
+          'Pedido não pode ter pagamentos se não estiver pago',
+        );
+      }
+
+      if (
+        createPedidoDto.pago &&
+        (!createPedidoDto.pagamentos || createPedidoDto.pagamentos.length === 0)
+      ) {
+        throw new BadRequestException(
+          'Pedido marcado como pago deve conter pelo menos uma forma de pagamento',
+        );
       }
 
       const pedido = await this.pedidoModel.create({ ...createPedidoDto });

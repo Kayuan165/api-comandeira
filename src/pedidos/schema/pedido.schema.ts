@@ -43,6 +43,24 @@ export class ItemPedido {
 
 export const ItemPedidoSchema = SchemaFactory.createForClass(ItemPedido);
 
+@Schema({ _id: false })
+export class PagamentoItem {
+  @Prop({
+    type: String,
+    required: true,
+    enum: ['dinheiro', 'pix', 'cartão crédito', 'cartão débito'],
+  })
+  tipo: string;
+
+  @Prop({ required: true, min: 0 })
+  valor: number;
+
+  @Prop()
+  trocoPara?: number;
+}
+
+export const PagamentoItemSchema = SchemaFactory.createForClass(PagamentoItem);
+
 @Schema({ timestamps: true })
 export class Pedido {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User', required: true })
@@ -50,6 +68,9 @@ export class Pedido {
 
   @Prop({ type: [ItemPedidoSchema], required: true })
   itens: ItemPedido[];
+
+  @Prop({ type: [PagamentoItemSchema], required: true })
+  pagamentos: PagamentoItem[];
 
   @Prop({ required: true, min: 0 })
   valorTotal: number;
