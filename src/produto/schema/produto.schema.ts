@@ -4,8 +4,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
   timestamps: true,
   toJSON: {
     virtuals: true,
-    transform: (doc, ret: { _id?: any; __v?: any; senha?: string }) => {
-      delete ret._id;
+    transform: (doc, ret: { __v?: any; senha?: string }) => {
       delete ret.__v;
       delete ret.senha;
       return ret;

@@ -92,6 +92,7 @@ export class Pedido {
 
   @Prop()
   status: boolean;
+  //comer ou levar
 }
 
 export type PedidoDocument = HydratedDocument<Pedido>;

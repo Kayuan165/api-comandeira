@@ -19,9 +19,9 @@ services:
       - .env
     depends_on:
       - mongo
-    volumes:
-      - .:/app
-      - /app/node_modules
+    # volumes:
+    #   # - .:/app
+    #   - /app/node_modules
 
 volumes:
   mongo_data:
