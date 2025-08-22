@@ -6,6 +6,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AuthModule } from './auth/auth.module';
 import { ProdutoModule } from './produto/produto.module';
 import { PedidosModule } from './pedidos/pedidos.module';
+import { MetricsModule } from './metrics/metrics.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { PedidosModule } from './pedidos/pedidos.module';
     AuthModule,
     ProdutoModule,
     PedidosModule,
+    MetricsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
