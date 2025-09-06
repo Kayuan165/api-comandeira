@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Pedido } from 'src/pedidos/schema/pedido.schema';
+import { Pedido } from '../pedidos/schema/pedido.schema';
 
 @Injectable()
 export class MetricsService {
