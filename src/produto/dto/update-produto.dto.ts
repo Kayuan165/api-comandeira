@@ -7,7 +7,7 @@ export class UpdateProdutoDto {
 
   @IsNotEmpty()
   @IsString()
-  preco: string;
+  preco: number;
 
   @IsNotEmpty()
   @IsNumber()
@@ -15,4 +15,7 @@ export class UpdateProdutoDto {
 
   @IsBoolean()
   ativo: boolean;
+
+  @IsBoolean()
+  adicional: boolean;
 }

@@ -17,31 +17,34 @@ export class ProdutoController {
   constructor(private readonly produtoService: ProdutoService) {}
 
   @Post('create')
-  create(@Body() createProdutoDto: CreateProdutoDto) {
+  async create(@Body() createProdutoDto: CreateProdutoDto) {
     try {
-      return this.produtoService.create(createProdutoDto);
+      return await this.produtoService.create(createProdutoDto);
     } catch (error) {
       throw new BadRequestException(`Erro ao criar produto: ${error}`);
     }
   }
 
   @Get('list')
-  findAll() {
-    return this.produtoService.findAll();
+  async findAll() {
+    return await this.produtoService.findAll();
   }
 
   @Get('list/:id')
-  findOne(@Param('id') id: string) {
-    return this.produtoService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    return await this.produtoService.findOne(id);
   }
 
   @Patch('update/:id')
-  update(@Param('id') id: string, @Body() updateProdutoDto: UpdateProdutoDto) {
-    return this.produtoService.update(id, updateProdutoDto);
+  async update(
+    @Param('id') id: string,
+    @Body() updateProdutoDto: UpdateProdutoDto,
+  ) {
+    return await this.produtoService.update(id, updateProdutoDto);
   }
 
   @Delete('delete/:id')
-  remove(@Param('id') id: string) {
-    return this.produtoService.remove(id);
+  async remove(@Param('id') id: string) {
+    return await this.produtoService.remove(id);
   }
 }
