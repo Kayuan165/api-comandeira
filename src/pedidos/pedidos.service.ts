@@ -79,10 +79,12 @@ export class PedidosService {
     }
   }
 
-  async update(id: number, updatePedidoDto: UpdatePedidoDto): Promise<Pedido> {
+  async update(id: string, updatePedidoDto: UpdatePedidoDto): Promise<Pedido> {
     try {
+      const cleanId = id.startsWith(':') ? id.substring(1) : id;
+
       const pedido = await this.pedidoModel
-        .findByIdAndUpdate(id, updatePedidoDto, { new: true })
+        .findByIdAndUpdate(cleanId, updatePedidoDto, { new: true })
         .lean()
         .exec();
       if (!pedido) {

@@ -120,4 +120,8 @@ export class CreatePedidoDto {
   @IsOptional()
   @IsBoolean()
   status?: boolean;
+
+  @IsBoolean()
+  @IsOptional()
+  finalizado?: boolean;
 }

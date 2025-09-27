@@ -25,22 +25,22 @@ export class PedidosController {
     }
   }
 
-  @Get()
+  @Get('list')
   findAll() {
     return this.pedidosService.findAll();
   }
 
-  @Get(':id')
+  @Get('list:id')
   findOne(@Param('id') id: string) {
     return this.pedidosService.findOne(+id);
   }
 
-  @Patch(':id')
+  @Patch('update:id')
   update(@Param('id') id: string, @Body() updatePedidoDto: UpdatePedidoDto) {
-    return this.pedidosService.update(+id, updatePedidoDto);
+    return this.pedidosService.update(id, updatePedidoDto);
   }
 
-  @Delete(':id')
+  @Delete('del:id')
   remove(@Param('id') id: string) {
     return this.pedidosService.remove(+id);
   }
