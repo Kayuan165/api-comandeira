@@ -3,8 +3,15 @@ import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Pedido } from './schema/pedido.schema';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { EventEmitter } from 'stream';
+
+interface FiltroPedido {
+  finalizado?: 'finalizado' | 'cancelado' | 'aberto';
+  agendado?: boolean;
+  cliente?: string;
+  horarioAgendamento?: string;
+}
 
 @Injectable()
 export class PedidosService {
@@ -105,6 +112,34 @@ export class PedidosService {
       return pedido;
     } catch (error) {
       throw new Error(`Erro ao remover pedido: ${error}`);
+    }
+  }
+
+  async buscarPedidos(filtro?: FiltroPedido) {
+    try {
+      const query: FilterQuery<Pedido> = {};
+
+      if (filtro?.finalizado) {
+        if (filtro.finalizado === 'aberto') {
+          query.finalizado = { $in: [null, undefined] };
+        } else if (filtro.finalizado === 'finalizado') {
+          query.finalizado = true;
+        } else if (filtro.finalizado === 'cancelado') {
+          query.finalizado = false;
+        }
+      } else {
+        query.finalizado = { $in: [null, undefined] };
+      }
+
+      const pedidos = await this.pedidoModel
+        .find(query)
+        .sort({ createdAt: -1 })
+        .lean()
+        .exec();
+
+      return pedidos;
+    } catch (error) {
+      throw new Error(`Erro ao buscar pedidos: ${error}`);
     }
   }
 }

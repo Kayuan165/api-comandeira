@@ -7,10 +7,15 @@ import {
   Param,
   Delete,
   BadRequestException,
+  Query,
 } from '@nestjs/common';
 import { PedidosService } from './pedidos.service';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
+
+interface FiltroPedidoQuery {
+  finalizado?: 'finalizado' | 'cancelado' | 'aberto';
+}
 
 @Controller('pedidos')
 export class PedidosController {
@@ -30,7 +35,7 @@ export class PedidosController {
     return this.pedidosService.findAll();
   }
 
-  @Get('list:id')
+  @Get('list/:id')
   findOne(@Param('id') id: string) {
     return this.pedidosService.findOne(+id);
   }
@@ -43,5 +48,16 @@ export class PedidosController {
   @Delete('del:id')
   remove(@Param('id') id: string) {
     return this.pedidosService.remove(+id);
+  }
+
+  @Get()
+  async listarPedidos(@Query() query: FiltroPedidoQuery) {
+    const filtro: FiltroPedidoQuery = {};
+
+    if (query.finalizado) {
+      filtro.finalizado = query.finalizado;
+    }
+
+    return this.pedidosService.buscarPedidos(filtro);
   }
 }
