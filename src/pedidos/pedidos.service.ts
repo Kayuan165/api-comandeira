@@ -7,7 +7,7 @@ import { FilterQuery, Model } from 'mongoose';
 import { EventEmitter } from 'stream';
 
 interface FiltroPedido {
-  finalizado?: 'finalizado' | 'cancelado' | 'aberto';
+  finalizado?: 'finalizado' | 'cancelado' | 'aberto' | 'all';
   agendado?: boolean;
   cliente?: string;
   horarioAgendamento?: string;
@@ -126,6 +126,10 @@ export class PedidosService {
           query.finalizado = true;
         } else if (filtro.finalizado === 'cancelado') {
           query.finalizado = false;
+        } else if (filtro.finalizado === 'all') {
+          query.finalizado = {
+            $in: [null, undefined, true, false],
+          };
         }
       } else {
         query.finalizado = { $in: [null, undefined] };
