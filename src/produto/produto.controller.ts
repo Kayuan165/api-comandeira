@@ -7,10 +7,15 @@ import {
   Delete,
   BadRequestException,
   Patch,
+  Query,
 } from '@nestjs/common';
 import { ProdutoService } from './produto.service';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
+
+interface FiltroProdutoQuery {
+  ativo?: 'ativo' | 'inativo';
+}
 
 @Controller('product')
 export class ProdutoController {
@@ -46,5 +51,15 @@ export class ProdutoController {
   @Delete('delete/:id')
   async remove(@Param('id') id: string) {
     return await this.produtoService.remove(id);
+  }
+
+  @Get()
+  async listarProdutos(@Query() query: FiltroProdutoQuery) {
+    const filtro: FiltroProdutoQuery = {};
+
+    if (query.ativo) {
+      filtro.ativo = query.ativo;
+    }
+    return this.produtoService.buscarProdutosComFiltro(filtro);
   }
 }

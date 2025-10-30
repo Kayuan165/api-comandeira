@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { CreatePedidoDto } from './dto/create-pedido.dto';
 import { UpdatePedidoDto } from './dto/update-pedido.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -143,7 +147,9 @@ export class PedidosService {
 
       return pedidos;
     } catch (error) {
-      throw new Error(`Erro ao buscar pedidos: ${error}`);
+      throw new InternalServerErrorException(
+        `Erro ao buscar pedidos: ${error}`,
+      );
     }
   }
 }

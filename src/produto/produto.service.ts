@@ -6,9 +6,13 @@ import {
 } from '@nestjs/common';
 import { CreateProdutoDto } from './dto/create-produto.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { FilterQuery, Model } from 'mongoose';
 import { Produto } from './schema/produto.schema';
 import { UpdateProdutoDto } from './dto/update-produto.dto';
+
+interface FiltroProduto {
+  ativo?: 'ativo' | 'inativo' | 'all';
+}
 
 @Injectable()
 export class ProdutoService {
@@ -94,6 +98,34 @@ export class ProdutoService {
       if (error instanceof NotFoundException) throw error;
       throw new InternalServerErrorException(
         `Erro ao remover produto: ${error}`,
+      );
+    }
+  }
+
+  async buscarProdutosComFiltro(filtro: FiltroProduto) {
+    try {
+      const query: FilterQuery<Produto> = {};
+
+      if (filtro?.ativo) {
+        if (filtro.ativo === 'ativo') {
+          query.ativo = true;
+        } else if (filtro?.ativo === 'inativo') {
+          query.ativo = false;
+        } else if (filtro?.ativo === 'all') {
+          query.ativo = { $in: [true, false] };
+        }
+      }
+
+      const produtos = await this.productModel
+        .find(query)
+        .sort({ createdAt: -1 })
+        .lean()
+        .exec();
+
+      return produtos;
+    } catch (error) {
+      throw new InternalServerErrorException(
+        `Erro ao buscar produtos com filtro: ${error}`,
       );
     }
   }
