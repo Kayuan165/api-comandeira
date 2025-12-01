@@ -28,4 +28,41 @@ export class MetricsService {
       throw new BadRequestException(`Erro ao buscar pedidos do dia: ${err}`);
     }
   }
+
+  async qtdRecebida(): Promise<number> {
+    try {
+      const hoje = new Date();
+      const inicioDoDia = new Date(
+        hoje.getFullYear(),
+        hoje.getMonth(),
+        hoje.getDate(),
+      );
+      const fimDoDia = new Date(
+        hoje.getFullYear(),
+        hoje.getMonth(),
+        hoje.getDate() + 1,
+      );
+
+      const resultado = await this.pedidoModel.aggregate<{
+        totalRecebido: number;
+      }>([
+        {
+          $match: {
+            createdAt: { $gte: inicioDoDia, $lt: fimDoDia },
+            finalizado: true,
+          },
+        },
+        {
+          $group: {
+            _id: null,
+            totalRecebido: { $sum: '$valorTotal' },
+          },
+        },
+      ]);
+
+      return resultado.length > 0 ? resultado[0].totalRecebido : 0;
+    } catch (err) {
+      throw new BadRequestException(`Erro ao buscar valor recebido: ${err}`);
+    }
+  }
 }

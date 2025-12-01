@@ -102,18 +102,20 @@ export class ProdutoService {
     }
   }
 
-  async buscarProdutosComFiltro(filtro: FiltroProduto) {
+  async buscarProdutosComFiltro(filtro?: FiltroProduto) {
     try {
       const query: FilterQuery<Produto> = {};
 
       if (filtro?.ativo) {
-        if (filtro.ativo === 'ativo') {
+        if (filtro?.ativo === 'ativo') {
           query.ativo = true;
         } else if (filtro?.ativo === 'inativo') {
           query.ativo = false;
         } else if (filtro?.ativo === 'all') {
           query.ativo = { $in: [true, false] };
         }
+      } else {
+        query.ativo = true;
       }
 
       const produtos = await this.productModel

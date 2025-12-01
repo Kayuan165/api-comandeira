@@ -6,12 +6,7 @@ import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 export class UsuarioController {
   constructor(private readonly usuarioService: UsuarioService) {}
 
-  // @Post('create')
-  // async create(@Body() createUsuarioDto: CreateUsuarioDto): Promise<User> {
-  //   return this.usuarioService.create(createUsuarioDto);
-  // }
-
-  @Get('find')
+  @Get('list')
   findAll() {
     return this.usuarioService.findAll();
   }

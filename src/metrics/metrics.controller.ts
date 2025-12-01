@@ -9,4 +9,9 @@ export class MetricsController {
   findAll() {
     return this.metricsService.qtdPedidos();
   }
+
+  @Get('valorTotal')
+  findTotalValue() {
+    return this.metricsService.qtdRecebida();
+  }
 }
