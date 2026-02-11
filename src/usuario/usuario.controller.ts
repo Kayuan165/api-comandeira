@@ -16,12 +16,12 @@ export class UsuarioController {
   //   return this.usuarioService.findOne(+id);
   // }
 
-  @Patch('update:id')
+  @Patch('update/:id')
   update(@Param('id') id: string, @Body() updateUsuarioDto: UpdateUsuarioDto) {
     return this.usuarioService.update(id, updateUsuarioDto);
   }
 
-  @Delete('delete:id')
+  @Delete('delete/:id')
   remove(@Param('id') id: string) {
     return this.usuarioService.remove(id);
   }
