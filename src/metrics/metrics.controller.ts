@@ -14,4 +14,9 @@ export class MetricsController {
   findTotalValue() {
     return this.metricsService.qtdRecebida();
   }
+
+  @Get('qtdCancelada')
+  findCanceled() {
+    return this.metricsService.qtdCancelada();
+  }
 }
