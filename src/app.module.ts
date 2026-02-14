@@ -7,10 +7,11 @@ import { AuthModule } from './auth/auth.module';
 import { ProdutoModule } from './produto/produto.module';
 import { PedidosModule } from './pedidos/pedidos.module';
 import { MetricsModule } from './metrics/metrics.module';
+import { monngooseConfig } from './config/mongoose.config';
 
 @Module({
   imports: [
-    MongooseModule.forRoot('mongodb://localhost:27017'),
+    MongooseModule.forRoot(monngooseConfig.uri as string),
     UsuarioModule,
     AuthModule,
     ProdutoModule,
