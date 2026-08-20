@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { UsuarioController } from './usuario.controller';
-import { UsuarioService } from './usuario.service';
+import { SafeUser, UsuarioService } from './usuario.service';
 import { UpdateUsuarioDto } from './dto/update-usuario.dto';
 import { NotFoundException } from '@nestjs/common';
 
@@ -39,7 +39,7 @@ describe('UsuarioController', () => {
   describe('findAll', () => {
     it('should call usuarioService.findAll and return its result', async () => {
       const users = [{ _id: '1', email: 'teste@example.com', nome: 'a' }];
-      service.findAll.mockResolvedValue(users as any);
+      service.findAll.mockResolvedValue(users as unknown as SafeUser[]);
 
       const result = await controller.findAll();
 
@@ -58,7 +58,7 @@ describe('UsuarioController', () => {
         nome: 'Novo Nome',
       };
 
-      service.update.mockResolvedValue(updatedUser as any);
+      service.update.mockResolvedValue(updatedUser as unknown as SafeUser);
 
       const result = await controller.update(id, dto);
 
